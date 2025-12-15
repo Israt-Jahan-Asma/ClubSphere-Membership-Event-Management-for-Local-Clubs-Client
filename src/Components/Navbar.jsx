@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
-import { Menu, X, Users, LogIn, UserPlus } from "lucide-react";
+import { Menu, X, Users, LogIn, UserPlus, LogOut } from "lucide-react";
 import { AuthContext } from "../Context/AuthContext/AuthContext";
 import { toast } from "react-toastify";
 
@@ -49,9 +49,10 @@ const Navbar = () => {
                             </ul>
                         </div>
                         <div className="navbar-end">
+                            <Link to={'/dashboard'} className="btn mr-3"> Dashboard</Link>
                             {
                                 user ? <button onClick={handleLogout} className=" flex items-center justify-center" >
-                                    <LogIn className="h-4 w-4 mr-2" />
+                                    <LogOut size={18} /> 
                                     Logout
                                 </button >
                                     : <Link className=" flex items-center justify-center" to={'/login'}> 

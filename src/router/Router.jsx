@@ -1,8 +1,11 @@
 import { createBrowserRouter } from "react-router";
-import RootLayout from "../RootLayout/RootLayout";
+import RootLayout from "../Layouts/RootLayout";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Auth/Login/Login";
 import Register from "../Pages/Auth/Register/Register";
+import DashLayout from "../DashLayout/DashLayout";
+import MainDashboard from "../Dashboard/MainDashboard/MainDashboard";
+import AddProduct from "../Dashboard/CreateRequest/CreateRequest";
 
 const router = createBrowserRouter([
     {
@@ -10,7 +13,7 @@ const router = createBrowserRouter([
         element: <RootLayout> </RootLayout>,
         children:[
             {
-                path: '/',
+                index: true,
                 Component: Home
             },
             {
@@ -23,6 +26,21 @@ const router = createBrowserRouter([
             }
         ]
     },
+    {
+        path: '/dashboard',
+        Component: DashLayout,
+        children:[
+            {
+            index: true,
+            Component: MainDashboard
+
+        },
+        {
+            path: 'create-request',
+            Component: AddProduct
+        }
+        ]
+    }
 ]);
 
 export default router

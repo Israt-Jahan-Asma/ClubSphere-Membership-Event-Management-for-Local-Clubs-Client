@@ -19,7 +19,6 @@ const Register = () => {
     const password = watch("password");
     const [upazila, setUpazila] = useState([])
     const [districts, setDistricts] = useState([])
-    const [district, setDistrict] = useState('')
 
     useEffect(() => {
         axios.get('/district.json')
@@ -32,7 +31,7 @@ const Register = () => {
 
         axios.get('/upazila.json')
             .then(res => {
-                setUpazila(res.data.upazilas); "upazilas"
+                setUpazila(res.data.upazilas); 
             })
             .catch(err => console.error(err));
     }, []);

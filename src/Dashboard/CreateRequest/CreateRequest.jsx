@@ -1,15 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import axios from "axios";
 import useAxios from "../../Hooks/useAxios";
+import axios from "axios";
 
 const CreateRequest = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const axiosInstance = useAxios()
+    const [upazila, setUpazila] = useState([])
+    const [districts, setDistricts] = useState([])
+
+    useEffect(() => {
+        axios.get('/district.json')
+            .then(res => {
+                setDistricts(res.data.districts);
+
+
+            })
+            .catch(err => console.error(err));
+
+        axios.get('/upazila.json')
+            .then(res => {
+                setUpazila(res.data.upazilas);
+            })
+            .catch(err => console.error(err));
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -36,7 +54,7 @@ const CreateRequest = () => {
 
         try {
             const res = await axiosInstance.post(
-              "/products", requestData
+              "/requests", requestData
             );
             console.log(res.data);
             toast.success("Request Created Successfully!");
@@ -48,9 +66,14 @@ const CreateRequest = () => {
           }
         }
           
-
+    // if (!user) {
+    //     return <div className="text-center mt-10">Loading user...</div>;
+    // }
+        
     return (
+        
         <div className="max-w-3xl mx-auto bg-base-100 p-8 rounded-2xl shadow">
+            
             {/* Header */}
             <div className="mb-8">
                 <h1 className="text-2xl font-bold">Create Donation Request</h1>
@@ -71,6 +94,7 @@ const CreateRequest = () => {
                             disabled
                             className="input input-bordered w-full h-12"
                         />
+
                     </div>
 
                     <div className="form-control">
@@ -131,9 +155,14 @@ const CreateRequest = () => {
                             required
                             className="select select-bordered w-full h-12"
                         >
-                            <option value="">Select district</option>
-                            <option>Dhaka</option>
-                            <option>Chattogram</option>
+                            
+                            <option value="" disabled>Select District</option>
+
+                            {districts?.map(d => (
+                                <option key={d.id} value={d.id}>
+                                    {d.name}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
@@ -146,9 +175,10 @@ const CreateRequest = () => {
                             required
                             className="select select-bordered w-full h-12"
                         >
-                            <option value="">Select upazila</option>
-                            <option>Dhanmondi</option>
-                            <option>Mirpur</option>
+                            <option value="" disabled>Select Upazila</option>
+                            {upazila.map(u => (
+                                <option key={u.id} value={u.name}>{u.name}</option>
+                            ))}
                         </select>
                     </div>
                 </div>

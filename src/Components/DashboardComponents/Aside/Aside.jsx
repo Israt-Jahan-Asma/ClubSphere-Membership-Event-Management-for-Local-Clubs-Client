@@ -46,15 +46,6 @@ export default function Aside() {
                     </NavLink>
 
                     <NavLink
-                        to="/dashboard/events"
-                        className={({ isActive }) =>
-                            `flex items-center gap-3 p-3 rounded-lg transition ${isActive ? "bg-primary text-white" : "hover:bg-gray-100"}`
-                        }
-                    >
-                        <Calendar size={18} /> Events
-                    </NavLink>
-
-                    <NavLink
                         to="/dashboard/create-request"
                         className={({ isActive }) =>
                             `flex items-center gap-3 p-3 rounded-lg transition ${isActive ? "bg-primary text-white" : "hover:bg-gray-100"}`

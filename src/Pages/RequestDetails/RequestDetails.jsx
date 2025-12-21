@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import useAxios from "../../Hooks/useAxios";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
 import { toast } from "react-toastify";
 import { Heart, Hospital, MapPin, Calendar, Clock, User, Phone } from "lucide-react";
@@ -9,22 +9,23 @@ const RequestDetails = () => {
     const { id } = useParams();
     const { user } = useContext(AuthContext);
     const [request, setRequest] = useState(null);
-    const axiosInstance = useAxios();
+    const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
 
     useEffect(() => {
-        axiosInstance.get(`/request/${id}`).then(res => setRequest(res.data));
-    }, [id]);
+        axiosSecure.get(`/request-details/${id}`)
+        .then(res => setRequest(res.data));
+    }, [id, axiosSecure]);
 
     const handleConfirmDonation = async (e) => {
         e.preventDefault();
         const donorInfo = {
-            donorName: user?.displayName,
-            donorEmail: user?.email
+            name: user?.displayName,
+            email: user?.email
         };
 
         try {
-            await axiosInstance.patch(`/requests/donate/${id}`, donorInfo);
+            await axiosSecure.patch(`/requests/confirm/${id}`, donorInfo);
             toast.success("Thank you for choosing to donate!");
             document.getElementById('donation_modal').close();
             navigate('/donation-requests');

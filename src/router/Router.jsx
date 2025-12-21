@@ -14,6 +14,7 @@ import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 import SearchDonor from "../Pages/SearchDonor/SearchDonor";
 import DonationRequestsPublic from "../Pages/DonationRequestsPublic/DonationRequestsPublic";
 import RequestDetails from "../Pages/RequestDetails/RequestDetails";
+import PrivetRouter from "../router/PrivetRouter";
 
 const router = createBrowserRouter([
     {
@@ -50,7 +51,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/request-details/:id',
-                Component: RequestDetails
+                element: <PrivetRouter><RequestDetails> </RequestDetails></PrivetRouter>
             }
         ]
     },

@@ -1,100 +1,88 @@
 import { Link } from "react-router";
-import { Users, Mail, MapPin, Github, Linkedin, Twitter } from "lucide-react";
+import { Heart, Mail, MapPin, Facebook, Instagram, Twitter, Phone } from "lucide-react";
 
 const Footer = () => {
     return (
-        <footer className="bg-card border-t border-border">
-            <div className="container mx-auto px-4 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    {/* Brand */}
-                    <div className="md:col-span-1">
-                        <Link to="/" className="flex items-center gap-2 mb-4">
-                            <div className="h-9 w-9 rounded-xl hero-gradient flex items-center justify-center">
-                                <Users className="h-5 w-5 text-primary-foreground" />
+        <footer className="bg-slate-900 text-slate-300 border-t border-slate-800">
+            <div className="section-container py-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+
+                    {/* Brand & Mission */}
+                    <div className="space-y-6">
+                        <Link to="/" className="flex items-center gap-2">
+                            <div className="h-10 w-10 rounded-xl bg-[#ea0606] flex items-center justify-center shadow-lg shadow-red-900/20">
+                                <Heart className="h-6 w-6 text-white fill-white" />
                             </div>
-                            <span className="font-heading text-xl font-bold text-gradient">
-                                BloodLink
+                            <span className="text-2xl font-bold text-white tracking-tight">
+                                Blood<span className="text-[#ea0606]">Link</span>
                             </span>
                         </Link>
-                        <p className="text-muted-foreground text-sm leading-relaxed">
-                            Connecting communities through shared passions. Discover, join, and manage local clubs with ease.
+                        <p className="text-sm leading-relaxed text-slate-400">
+                            Empowering communities by connecting life-saving blood donors with those in urgent need. Every drop counts in our mission to save lives.
                         </p>
-                    </div>
-
-                    {/* Quick Links */}
-                    <div>
-                        <h4 className="font-heading font-semibold mb-4">Quick Links</h4>
-                        <ul className="space-y-2">
-                            {["Home", "Clubs", "Events", "Pricing"].map((item) => (
-                                <li key={item}>
-                                    <Link
-                                        to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                                        className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                                    >
-                                        {item}
-                                    </Link>
-                                </li>
+                        <div className="flex gap-4">
+                            {[Facebook, Instagram, Twitter].map((Icon, idx) => (
+                                <a
+                                    key={idx}
+                                    href="#"
+                                    className="h-10 w-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-[#ea0606] hover:text-white transition-all duration-300 border border-slate-700"
+                                >
+                                    <Icon size={18} />
+                                </a>
                             ))}
-                        </ul>
-                    </div>
-
-                    {/* Support */}
-                    <div>
-                        <h4 className="font-heading font-semibold mb-4">Support</h4>
-                        <ul className="space-y-2">
-                            {["Help Center", "Terms of Service", "Privacy Policy", "FAQ"].map(
-                                (item) => (
-                                    <li key={item}>
-                                        <Link
-                                            to="#"
-                                            className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                                        >
-                                            {item}
-                                        </Link>
-                                    </li>
-                                )
-                            )}
-                        </ul>
-                    </div>
-
-                    {/* Contact */}
-                    <div>
-                        <h4 className="font-heading font-semibold mb-4">Contact</h4>
-                        <ul className="space-y-3">
-                            <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                                <Mail className="h-4 w-4 text-primary" />
-                                hello@clubsphere.com
-                            </li>
-                            <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                                <MapPin className="h-4 w-4 text-primary" />
-                                San Francisco, CA
-                            </li>
-                        </ul>
-                        <div className="flex gap-3 mt-4">
-                            <a
-                                href="#"
-                                className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
-                            >
-                                <Github className="h-4 w-4" />
-                            </a>
-                            <a
-                                href="#"
-                                className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
-                            >
-                                <Linkedin className="h-4 w-4" />
-                            </a>
-                            <a
-                                href="#"
-                                className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
-                            >
-                                <Twitter className="h-4 w-4" />
-                            </a>
                         </div>
+                    </div>
+
+                    {/* Quick Navigation */}
+                    <div>
+                        <h4 className="text-white font-bold text-lg mb-6">Quick Links</h4>
+                        <ul className="space-y-4 text-sm">
+                            <li><Link to="/" className="hover:text-[#ea0606] transition-colors">Home</Link></li>
+                            <li><Link to="/donation-requests" className="hover:text-[#ea0606] transition-colors">Donation Requests</Link></li>
+                            <li><Link to="/search" className="hover:text-[#ea0606] transition-colors">Search Donors</Link></li>
+                            <li><Link to="/funding" className="hover:text-[#ea0606] transition-colors">Funding & Donate</Link></li>
+                        </ul>
+                    </div>
+
+                    {/* Support & Legal */}
+                    <div>
+                        <h4 className="text-white font-bold text-lg mb-6">Support</h4>
+                        <ul className="space-y-4 text-sm">
+                            <li><Link to="#" className="hover:text-[#ea0606] transition-colors">How it Works</Link></li>
+                            <li><Link to="#" className="hover:text-[#ea0606] transition-colors">Privacy Policy</Link></li>
+                            <li><Link to="#" className="hover:text-[#ea0606] transition-colors">Terms of Service</Link></li>
+                            <li><Link to="#" className="hover:text-[#ea0606] transition-colors">FAQ</Link></li>
+                        </ul>
+                    </div>
+
+                    {/* Contact Info */}
+                    <div>
+                        <h4 className="text-white font-bold text-lg mb-6">Contact Us</h4>
+                        <ul className="space-y-4">
+                            <li className="flex items-start gap-3 text-sm">
+                                <Phone size={18} className="text-[#ea0606] shrink-0" />
+                                <span>+880 1234 567 890</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-sm">
+                                <Mail size={18} className="text-[#ea0606] shrink-0" />
+                                <span>support@bloodlink.com</span>
+                            </li>
+                            <li className="flex items-start gap-3 text-sm">
+                                <MapPin size={18} className="text-[#ea0606] shrink-0" />
+                                <span>123 Health Ave, Sector 7, Dhaka</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
-                <div className="border-t border-border mt-12 pt-8 text-center text-sm text-muted-foreground">
+                {/* Bottom Bar */}
+                <div className="border-t border-slate-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 font-medium">
                     <p>© {new Date().getFullYear()} BloodLink. All rights reserved.</p>
+                    <div className="flex gap-6">
+                        <Link to="#" className="hover:text-white transition-colors">Security</Link>
+                        <Link to="#" className="hover:text-white transition-colors">Sitemap</Link>
+                        <Link to="#" className="hover:text-white transition-colors">Cookies</Link>
+                    </div>
                 </div>
             </div>
         </footer>

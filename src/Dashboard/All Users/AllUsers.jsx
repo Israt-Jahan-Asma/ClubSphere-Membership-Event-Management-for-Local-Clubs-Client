@@ -41,7 +41,7 @@ const AllUsers = () => {
             <div className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 gap-4">
                 <h2 className="text-2xl font-black text-slate-900">User Management</h2>
 
-                <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-100">
+                {/* <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-2xl border border-slate-100">
                     <Filter size={18} className="ml-2 text-slate-400" />
                     <select
                         className="bg-transparent font-bold text-sm text-slate-600 outline-none pr-4"
@@ -52,7 +52,7 @@ const AllUsers = () => {
                         <option value="active">Active Members</option>
                         <option value="blocked">Blocked Members</option>
                     </select>
-                </div>
+                </div> */}
             </div>
 
             {/* Table Card */}

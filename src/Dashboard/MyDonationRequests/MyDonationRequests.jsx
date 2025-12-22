@@ -10,15 +10,21 @@ const MyDonationRequests = () => {
     const [totalRequest, setTotalRequest] = useState(0)
     const [itemsPerPage, setItemsPerPage] = useState(10)
     const [currentPage, setCurrentPage] = useState(1)
+    const [filter, setFilter] = useState('')
     const axiosSecure = useAxiosSecure()
 
     useEffect(() => {
-        axiosSecure.get(`/my-donation-requests?size=${itemsPerPage}&page=${currentPage - 1}`)
+        axiosSecure.get(`/my-donation-requests?size=${itemsPerPage}&page=${currentPage - 1}&status=${filter}`)
             .then(res => {
                 setMyRequests(res.data.request);
                 setTotalRequest(res.data.totalRequest)
             })
-    }, [axiosSecure, currentPage, itemsPerPage])
+    }, [axiosSecure, currentPage, itemsPerPage, filter])
+
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+        setCurrentPage(1);
+    };
 
     const numberOfPages = Math.ceil(totalRequest / itemsPerPage)
     const pages = [...Array(numberOfPages).keys().map(e => e + 1)]
@@ -72,6 +78,26 @@ const MyDonationRequests = () => {
 
     return (
         <div className="space-y-6">
+            {/* Filter Header Section */}
+            <div className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm gap-4">
+                <h2 className="text-xl font-black text-slate-900">My Requests</h2>
+
+                <div className="flex items-center gap-3">
+                    <span className="text-sm font-bold text-slate-500 uppercase tracking-wider ">Filter By:</span>
+                    <select
+                        value={filter}
+                        onChange={handleFilterChange}
+                        className="select select-bordered rounded-xl border-slate-200 focus:outline-none focus:border-[#ea0606] font-bold text-slate-700"
+                    >
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="inprogress">In Progress</option>
+                        <option value="done">Done</option>
+                        <option value="canceled">Canceled</option>
+                    </select>
+                </div>
+            </div>
+
             <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="table w-full">

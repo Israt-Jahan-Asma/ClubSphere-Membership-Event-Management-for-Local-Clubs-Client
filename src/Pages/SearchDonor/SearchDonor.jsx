@@ -143,9 +143,9 @@ const SearchDonor = () => {
                                         <span className="text-slate-500">Status</span>
                                         <span className="text-green-600 font-bold px-2 py-0.5 bg-green-50 rounded-full text-xs">Available</span>
                                     </div>
-                                    <button className="btn-secondary w-full py-2 mt-2 text-sm">
+                                    {/* <button className="btn-secondary w-full py-2 mt-2 text-sm">
                                         View Profile
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                         ))}

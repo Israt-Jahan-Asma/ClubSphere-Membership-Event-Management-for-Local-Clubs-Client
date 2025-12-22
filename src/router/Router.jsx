@@ -19,6 +19,7 @@ import Profile from "../Dashboard/Profile/Profile";
 import EditRequest from "../Dashboard/EditRequest/EditRequest";
 import AllDonationRequests from "../Dashboard/AllDonationRequests/AllDonationRequests";
 import Funding from "../Dashboard/Funding/Funding";
+import NotFound from "../Pages/NotFoundPage/NotFound";
 
 const router = createBrowserRouter([
     {
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
             Component: Funding
         }
         ]
+    },
+    {
+        path: "*",
+        Component: NotFound
     }
 ]);
 

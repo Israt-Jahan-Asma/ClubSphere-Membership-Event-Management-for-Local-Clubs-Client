@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
-import { LogIn, LogOut, LayoutDashboard, Search, HeartHandshake, Home, HandCoins } from "lucide-react";
+import { LogIn, LogOut, LayoutDashboard, Search, HeartHandshake, Home, HandCoins, Heart } from "lucide-react";
 import { AuthContext } from "../Context/AuthContext/AuthContext";
 import { toast } from "react-toastify";
 
@@ -35,6 +35,7 @@ const Navbar = () => {
             <nav className="glass mx-4 mt-4 rounded-2xl border border-white/20 shadow-lg bg-white/10 backdrop-blur-md">
                 <div className="container mx-auto px-2">
                     <div className="navbar">
+
                         {/* Navbar Start: Logo & Mobile Menu */}
                         <div className="navbar-start">
                             <div className="dropdown">
@@ -47,9 +48,15 @@ const Navbar = () => {
                                     {commonLinks}
                                 </ul>
                             </div>
-                            <Link to="/" className="btn btn-ghost normal-case text-2xl font-bold gap-1 text-primary">
-                                <span className="text-red-600">Blood</span>Link
-                            </Link>
+                            {/* Logo Section */}
+                           
+                                <div className="bg-[#ea0606] p-2 rounded-lg">
+                                    <Heart className="text-white" size={24} fill="currentColor" />
+                                </div>
+                                <Link to="/" className="text-2xl font-black text-slate-900 tracking-tight pl-2">
+                                    Blood<span className="text-[#ea0606]">Link</span>
+                                </Link>
+                            
                         </div>
 
                         {/* Navbar Center: Desktop Menu */}
@@ -89,7 +96,7 @@ const Navbar = () => {
                                 </div>
                             ) : (
                                 <div className="flex gap-2">
-                                    <Link to="/login" className="btn btn-primary btn-sm md:btn-md rounded-xl flex items-center gap-2">
+                                        <Link to="/login" className="btn btn-primary bg-slate-900 btn-sm md:btn-md rounded-xl flex items-center gap-2">
                                         <LogIn size={18} /> Login
                                     </Link>
                                 </div>

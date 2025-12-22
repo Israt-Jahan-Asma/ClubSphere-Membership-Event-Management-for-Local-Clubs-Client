@@ -1,5 +1,5 @@
 import { Link, NavLink, useNavigate } from "react-router";
-import { LayoutDashboard, Users, User, Settings, LogOut, PlusCircle, Heart } from "lucide-react";
+import { LayoutDashboard, Users, User, LogOut, PlusCircle, Heart, ClipboardList, Settings } from "lucide-react";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthContext/AuthContext";
@@ -40,7 +40,7 @@ export default function Aside() {
 
             {/* Navigation Section */}
             <nav className="flex-1 space-y-2">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4 px-2">Menu</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4 px-2">General</p>
 
                 <NavLink to="/dashboard" end className={navLinkStyles}>
                     <LayoutDashboard size={20} /> Dashboard
@@ -50,22 +50,32 @@ export default function Aside() {
                     <User size={20} /> Profile
                 </NavLink>
 
-                {/* Admin Only */}
-                {role === 'admin' && (
-                    <NavLink to="/dashboard/all-users" className={navLinkStyles}>
-                        <Users size={20} /> All Users
-                    </NavLink>
+                {/* --- ADMIN & VOLUNTEER SECTION --- */}
+                {(role === 'admin' || role === 'volunteer') && (
+                    <>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-6 mb-4 px-2">Management</p>
+
+                        <NavLink to="/dashboard/all-blood-donation-request" className={navLinkStyles}>
+                            <ClipboardList size={20} /> All Requests
+                        </NavLink>
+
+                        {role === 'admin' && (
+                            <NavLink to="/dashboard/all-users" className={navLinkStyles}>
+                                <Users size={20} /> All Users
+                            </NavLink>
+                        )}
+                    </>
                 )}
 
-                {/* Donor / Volunteer Features */}
-                {(role === 'donor' || role === 'volunteer' || role === 'admin') && (
-                    <NavLink to="/dashboard/create-donation-request" className={navLinkStyles}>
-                        <PlusCircle size={20} /> Create Request
-                    </NavLink>
-                )}
+                {/* --- DONOR SECTION --- */}
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-6 mb-4 px-2">Donations</p>
 
                 <NavLink to="/dashboard/my-donation-requests" className={navLinkStyles}>
                     <Settings size={20} /> My Requests
+                </NavLink>
+
+                <NavLink to="/dashboard/create-donation-request" className={navLinkStyles}>
+                    <PlusCircle size={20} /> Create Request
                 </NavLink>
             </nav>
 

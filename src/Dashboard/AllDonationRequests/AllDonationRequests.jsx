@@ -1,42 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import { AuthContext } from '../../Context/AuthContext/AuthContext';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router';
-import { Edit, Eye, Trash2, MapPin, Calendar, Clock } from 'lucide-react';
+import { Edit, Eye, Trash2, MapPin, Calendar, Clock, Filter } from 'lucide-react';
 import Swal from 'sweetalert2';
 
-const MyDonationRequests = () => {
-    const [myRequests, setMyRequests] = useState([])
-    const [totalRequest, setTotalRequest] = useState(0)
-    const [itemsPerPage, setItemsPerPage] = useState(10)
-    const [currentPage, setCurrentPage] = useState(1)
-    const axiosSecure = useAxiosSecure()
+const AllDonationRequests = () => {
+    const { role } = useContext(AuthContext);
+    const [requests, setRequests] = useState([]);
+    const [totalRequest, setTotalRequest] = useState(0);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [currentPage, setCurrentPage] = useState(1);
+    const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        axiosSecure.get(`/my-donation-requests?size=${itemsPerPage}&page=${currentPage - 1}`)
+        axiosSecure.get(`/all-donation-requests?size=${itemsPerPage}&page=${currentPage - 1}`)
             .then(res => {
-                setMyRequests(res.data.request);
-                setTotalRequest(res.data.totalRequest)
-            })
-    }, [axiosSecure, currentPage, itemsPerPage])
+                setRequests(res.data.request);
+                setTotalRequest(res.data.totalRequest);
+            });
+    }, [axiosSecure, currentPage, itemsPerPage]);
 
-    const numberOfPages = Math.ceil(totalRequest / itemsPerPage)
-    const pages = [...Array(numberOfPages).keys().map(e => e + 1)]
+    const numberOfPages = Math.ceil(totalRequest / itemsPerPage);
+    const pages = [...Array(numberOfPages).keys().map(e => e + 1)];
 
     const handlePrev = () => {
-        if (currentPage > 1) setCurrentPage(currentPage - 1)
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
     }
     const handleNext = () => {
-        if (currentPage < pages.length) setCurrentPage(currentPage + 1)
+        if (currentPage < pages.length) setCurrentPage(currentPage + 1);
     }
 
     const handleStatusUpdate = async (id, newStatus) => {
         try {
             await axiosSecure.patch(`/requests/status-update/${id}`, { status: newStatus });
             toast.success(`Request marked as ${newStatus}`);
-            setMyRequests(prev => prev.map(r => r._id === id ? { ...r, status: newStatus } : r));
+            setRequests(prev => prev.map(r => r._id === id ? { ...r, status: newStatus } : r));
         } catch (err) {
-            toast.error("Failed to update status");
+            toast.error("Update failed");
         }
     };
 
@@ -54,7 +56,7 @@ const MyDonationRequests = () => {
                 try {
                     const res = await axiosSecure.delete(`/requests/${id}`);
                     if (res.data.deletedCount > 0) {
-                        setMyRequests(prev => prev.filter(r => r._id !== id));
+                        setRequests(prev => prev.filter(r => r._id !== id));
                         Swal.fire({
                             title: "Deleted!",
                             text: "The request has been removed.",
@@ -72,10 +74,19 @@ const MyDonationRequests = () => {
 
     return (
         <div className="space-y-6">
+            {/* Header Card */}
+            <div className="bg-slate-900 p-10 rounded-[2.5rem] shadow-xl text-white flex justify-between items-center relative overflow-hidden border border-slate-800">
+                <div className="relative z-10">
+                    <h1 className="text-3xl font-black">All Donation Requests</h1>
+                    <p className="text-slate-400 mt-2">Managing total {totalRequest} platform requests</p>
+                </div>
+                <Filter className="absolute -right-6 -bottom-6 text-white/5 w-40 h-40" />
+            </div>
+
             <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="table w-full">
-                        {/* head */}
+                        {/* Synchronized Header with MyDonationRequests */}
                         <thead className="bg-slate-900 text-white">
                             <tr>
                                 <th className="py-5 pl-8 rounded-tl-[2rem]">#</th>
@@ -88,7 +99,7 @@ const MyDonationRequests = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                            {myRequests.map((request, index) => (
+                            {requests.map((request, index) => (
                                 <tr key={request._id} className="hover:bg-slate-50/50 transition-colors">
                                     <th className="pl-8 text-slate-400 font-medium">
                                         {(currentPage - 1) * itemsPerPage + (index + 1)}
@@ -120,7 +131,7 @@ const MyDonationRequests = () => {
                                     <td>
                                         <div className="flex flex-col gap-2">
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase w-fit ${request.status === 'pending' ? 'bg-amber-100 text-amber-600' :
-                                                    request.status === 'inprogress' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'
+                                                request.status === 'inprogress' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'
                                                 }`}>
                                                 {request.status}
                                             </span>
@@ -152,11 +163,11 @@ const MyDonationRequests = () => {
                 </div>
             </div>
 
-            {/* Pagination */}
+            {/* Pagination Synchronized with MyDonationRequests */}
             {totalRequest > itemsPerPage && (
                 <div className="flex flex-col md:flex-row items-center justify-between bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
                     <p className="text-sm text-slate-500 font-medium mb-4 md:mb-0">
-                        Showing <span className="text-slate-900">{myRequests.length}</span> of <span className="text-slate-900">{totalRequest}</span> requests
+                        Showing <span className="text-slate-900">{requests.length}</span> of <span className="text-slate-900">{totalRequest}</span> requests
                     </p>
                     <div className="flex items-center gap-2">
                         <button
@@ -171,8 +182,8 @@ const MyDonationRequests = () => {
                                 <button
                                     key={page}
                                     className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${page === currentPage
-                                            ? "bg-[#ea0606] text-white shadow-lg shadow-red-200"
-                                            : "bg-slate-50 text-slate-600 hover:bg-slate-100"
+                                        ? "bg-[#ea0606] text-white shadow-lg shadow-red-200"
+                                        : "bg-slate-50 text-slate-600 hover:bg-slate-100"
                                         }`}
                                     onClick={() => setCurrentPage(page)}
                                 >
@@ -194,4 +205,5 @@ const MyDonationRequests = () => {
     );
 };
 
-export default MyDonationRequests;
+export default AllDonationRequests;
+

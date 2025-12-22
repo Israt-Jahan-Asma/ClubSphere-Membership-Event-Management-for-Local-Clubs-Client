@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../Context/AuthContext/AuthContext";
 
 const axiosSecure = axios.create({
-    baseURL: 'https://blood-donation-application-beryl.vercel.app/'
+    baseURL: 'https://blood-donation-application-server-sigma.vercel.app/'
 })
 
 const useAxiosSecure = ()=>{

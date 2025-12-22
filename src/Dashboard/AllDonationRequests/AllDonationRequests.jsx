@@ -57,16 +57,10 @@ const AllDonationRequests = () => {
                     const res = await axiosSecure.delete(`/requests/${id}`);
                     if (res.data.deletedCount > 0) {
                         setRequests(prev => prev.filter(r => r._id !== id));
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "The request has been removed.",
-                            icon: "success",
-                            timer: 1500,
-                            showConfirmButton: false
-                        });
+                        Swal.fire("Deleted!", "Request removed.", "success");
                     }
                 } catch (err) {
-                    Swal.fire("Error", "Failed to delete request.", "error");
+                    Swal.fire("Error", "Failed to delete.", "error");
                 }
             }
         });
@@ -74,19 +68,9 @@ const AllDonationRequests = () => {
 
     return (
         <div className="space-y-6">
-            {/* Header Card */}
-            <div className="bg-slate-900 p-10 rounded-[2.5rem] shadow-xl text-white flex justify-between items-center relative overflow-hidden border border-slate-800">
-                <div className="relative z-10">
-                    <h1 className="text-3xl font-black">All Donation Requests</h1>
-                    <p className="text-slate-400 mt-2">Managing total {totalRequest} platform requests</p>
-                </div>
-                <Filter className="absolute -right-6 -bottom-6 text-white/5 w-40 h-40" />
-            </div>
-
             <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="table w-full">
-                        {/* Synchronized Header with MyDonationRequests */}
                         <thead className="bg-slate-900 text-white">
                             <tr>
                                 <th className="py-5 pl-8 rounded-tl-[2rem]">#</th>
@@ -104,9 +88,7 @@ const AllDonationRequests = () => {
                                     <th className="pl-8 text-slate-400 font-medium">
                                         {(currentPage - 1) * itemsPerPage + (index + 1)}
                                     </th>
-                                    <td>
-                                        <p className="font-bold text-slate-900">{request.recipientName}</p>
-                                    </td>
+                                    <td><p className="font-bold text-slate-900">{request.recipientName}</p></td>
                                     <td>
                                         <div className="flex items-center gap-2 text-slate-600">
                                             <MapPin size={14} className="text-[#ea0606]" />
@@ -131,10 +113,11 @@ const AllDonationRequests = () => {
                                     <td>
                                         <div className="flex flex-col gap-2">
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase w-fit ${request.status === 'pending' ? 'bg-amber-100 text-amber-600' :
-                                                request.status === 'inprogress' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'
+                                                    request.status === 'inprogress' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'
                                                 }`}>
                                                 {request.status}
                                             </span>
+                                            {/* Volunteer & Admin can both update status */}
                                             {request.status === 'inprogress' && (
                                                 <div className="flex gap-1">
                                                     <button onClick={() => handleStatusUpdate(request._id, 'done')} className="btn btn-success btn-xs rounded-lg px-3">Done</button>
@@ -145,12 +128,18 @@ const AllDonationRequests = () => {
                                     </td>
                                     <td className="pr-8">
                                         <div className="flex justify-center gap-2">
-                                            <Link title="Edit" to={`/dashboard/edit-request/${request._id}`} className="p-2 hover:bg-blue-50 rounded-xl text-blue-600 transition-all">
-                                                <Edit size={18} />
-                                            </Link>
-                                            <button title="Delete" onClick={() => handleDelete(request._id)} className="p-2 hover:bg-red-50 rounded-xl text-[#ea0606] transition-all">
-                                                <Trash2 size={18} />
-                                            </button>
+                                            {/* ONLY ADMIN can see Edit and Delete */}
+                                            {role === 'admin' && (
+                                                <>
+                                                    <Link title="Edit" to={`/dashboard/edit-request/${request._id}`} className="p-2 hover:bg-blue-50 rounded-xl text-blue-600 transition-all">
+                                                        <Edit size={18} />
+                                                    </Link>
+                                                    <button title="Delete" onClick={() => handleDelete(request._id)} className="p-2 hover:bg-red-50 rounded-xl text-[#ea0606] transition-all">
+                                                        <Trash2 size={18} />
+                                                    </button>
+                                                </>
+                                            )}
+                                            {/* EVERYONE (Admin/Volunteer) can see View Details */}
                                             <Link title="View Details" to={`/request-details/${request._id}`} className="p-2 hover:bg-slate-100 rounded-xl text-slate-600 transition-all">
                                                 <Eye size={18} />
                                             </Link>

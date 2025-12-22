@@ -1,5 +1,5 @@
 import { Link, NavLink, useNavigate } from "react-router";
-import { LayoutDashboard, Users, User, LogOut, PlusCircle, Heart, ClipboardList, Settings } from "lucide-react";
+import { LayoutDashboard, Users, User, LogOut, PlusCircle, Heart, ClipboardList, Settings, DollarSign } from "lucide-react";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthContext/AuthContext";
@@ -64,8 +64,10 @@ export default function Aside() {
                                 <Users size={20} /> All Users
                             </NavLink>
                         )}
+ 
                     </>
                 )}
+               
 
                 {/* --- DONOR SECTION --- */}
                 <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-6 mb-4 px-2">Donations</p>
@@ -77,7 +79,13 @@ export default function Aside() {
                 <NavLink to="/dashboard/create-donation-request" className={navLinkStyles}>
                     <PlusCircle size={20} /> Create Request
                 </NavLink>
+
+                <NavLink to="/dashboard/funding" className={navLinkStyles}>
+                    <DollarSign size={20} /> Funding
+                </NavLink>
             </nav>
+
+            
 
             {/* Bottom Section */}
             <div className="mt-auto pt-6 border-t border-slate-100">

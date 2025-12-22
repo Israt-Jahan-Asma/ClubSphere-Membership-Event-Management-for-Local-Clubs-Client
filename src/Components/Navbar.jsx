@@ -25,8 +25,8 @@ const Navbar = () => {
             <li><NavLink to='/'>Home</NavLink></li>
             <li><NavLink to='/donation-requests'>Donation Requests</NavLink></li>
             {/* Show Funding links only if logged in */}
-            {user && <li><NavLink to='/funding'>Funding</NavLink></li>}
-            <li><NavLink to='/search'>Search Donors</NavLink></li>
+            {user && <li><NavLink to='/donate'>Donate</NavLink></li>}
+           
         </>
     );
 

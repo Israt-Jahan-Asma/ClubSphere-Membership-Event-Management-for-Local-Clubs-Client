@@ -18,6 +18,7 @@ import PrivetRouter from "../router/PrivetRouter";
 import Profile from "../Dashboard/Profile/Profile";
 import EditRequest from "../Dashboard/EditRequest/EditRequest";
 import AllDonationRequests from "../Dashboard/AllDonationRequests/AllDonationRequests";
+import Funding from "../Dashboard/Funding/Funding";
 
 const router = createBrowserRouter([
     {
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
         {
             path: 'all-blood-donation-request',
             Component: AllDonationRequests
+        },
+        {
+            path: 'funding',
+            Component: Funding
         }
         ]
     }

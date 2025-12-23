@@ -14,13 +14,16 @@ const EditRequest = () => {
 
     useEffect(() => {
         // Fetch existing request data
-        axiosSecure.get(`/requests/edit/${id}`)
-            .then(res => setRequestData(res.data));
+        console.log('Fetching request for ID:', id);
+        axiosSecure.get(`/request-details/${id}`)
+            .then(res => setRequestData(res.data))
+            .catch(err => console.error(err));
 
         // Fetch location data for dropdowns
         axios.get('/district.json').then(res => setDistricts(res.data.districts));
         axios.get('/upazila.json').then(res => setUpazilas(res.data.upazilas));
     }, [id, axiosSecure]);
+    
 
     const handleUpdate = async (e) => {
         e.preventDefault();
